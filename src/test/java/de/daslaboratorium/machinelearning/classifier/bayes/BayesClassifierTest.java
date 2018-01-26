@@ -12,6 +12,9 @@ import org.junit.Test;
 import de.daslaboratorium.machinelearning.classifier.Classification;
 import de.daslaboratorium.machinelearning.classifier.Classifier;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 public class BayesClassifierTest {
 
     private static final double EPSILON = 0.001;
@@ -74,19 +77,17 @@ public class BayesClassifierTest {
     }
 
     @Test
-    public void testRestart(){
+    public void testRestart() {
         Dictionary featureCountPerCategory = bayes.getFeatureCountPerCategory();
-        System.out.println(featureCountPerCategory);
         Dictionary totalFeatureCount = bayes.getTotalFeatureCount();
-        System.out.println(totalFeatureCount);
         Dictionary totalCategoryCount = bayes.getTotalCategoryCount();
-        System.out.println(totalCategoryCount);
         BayesClassifier bayes2 = new BayesClassifier<String, String>();
-        bayes2.restart(featureCountPerCategory,totalFeatureCount, totalCategoryCount);
+        bayes2.restart(featureCountPerCategory, totalFeatureCount, totalCategoryCount);
         final String[] unknownText1 = "today is a sunny day".split("\\s");
         final String[] unknownText2 = "there will be rain".split("\\s");
 
         Assert.assertEquals(CATEGORY_POSITIVE, bayes2.classify(Arrays.asList(unknownText1)).getCategory());
         Assert.assertEquals(CATEGORY_NEGATIVE, bayes2.classify(Arrays.asList(unknownText2)).getCategory());
     }
+
 }

@@ -1,5 +1,6 @@
 package de.daslaboratorium.machinelearning.classifier;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -10,8 +11,12 @@ import java.util.Set;
 
 import java.util.Map;
 import java.util.Iterator;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
+import java.util.HashMap;
 
 
 /**
@@ -113,12 +118,26 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
         return this.memoryQueue;
     }
 
-    /*public void getJson(){
-        Dictionary dict = this.featureCountPerCategory;
+    public Map getMap(Dictionary dict){
         Iterator<String> keysIter = Iterators.forEnumeration(dict.keys());
         Map<String, Object> dictCopy = Maps.toMap(keysIter, dict::get);
-        System.out.println(dictCopy);
-    }*/
+        return dictCopy;
+    }
+
+    public Map getAllMaps(){
+        Map<String, Map> data = new HashMap<String, Map>();
+        data.put("Feature Count Per Category", getMap(this.getFeatureCountPerCategory()));
+        data.put("Total Feature Count", getMap(this.getTotalCategoryCount()));
+        data.put("Total Category Category", getMap(this.getTotalCategoryCount()));
+        return data;
+    }
+
+    public String getJson() throws IOException, JsonProcessingException {
+        Map map = this.getAllMaps();
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
+        return jsonResult;
+    }
 
     /**
      * Returns a <code>Set</code> of features the classifier knows about.
