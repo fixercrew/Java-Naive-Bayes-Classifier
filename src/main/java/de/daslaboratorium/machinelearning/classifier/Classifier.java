@@ -8,6 +8,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
+import java.util.Map;
+import java.util.Iterator;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
+
+
 /**
  * Abstract base extended by any concrete classifier. It implements the basic
  * functionality for storing categories or features and can be used to calculate
@@ -83,6 +89,36 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
         this.totalCategoryCount = new Hashtable<K, Integer>(Classifier.INITIAL_CATEGORY_DICTIONARY_CAPACITY);
         this.memoryQueue = new LinkedList<Classification<T, K>>();
     }
+
+    public void restart(Dictionary featureCountPerCategory,Dictionary<T, Integer> totalFeatureCount, Dictionary<K, Integer> totalCategoryCount) {
+        this.featureCountPerCategory = featureCountPerCategory;
+        this.totalFeatureCount = totalFeatureCount;
+        this.totalCategoryCount = totalCategoryCount;
+        this.memoryQueue = new LinkedList<Classification<T, K>>();
+    }
+
+    public Dictionary getFeatureCountPerCategory(){
+        return this.featureCountPerCategory;
+    }
+
+    public Dictionary<T, Integer> getTotalFeatureCount(){
+        return this.totalFeatureCount;
+    }
+
+    public Dictionary<K, Integer> getTotalCategoryCount(){
+        return this.totalCategoryCount;
+    }
+
+    public Queue<Classification<T,K>> getMemoryQueue(){
+        return this.memoryQueue;
+    }
+
+    /*public void getJson(){
+        Dictionary dict = this.featureCountPerCategory;
+        Iterator<String> keysIter = Iterators.forEnumeration(dict.keys());
+        Map<String, Object> dictCopy = Maps.toMap(keysIter, dict::get);
+        System.out.println(dictCopy);
+    }*/
 
     /**
      * Returns a <code>Set</code> of features the classifier knows about.

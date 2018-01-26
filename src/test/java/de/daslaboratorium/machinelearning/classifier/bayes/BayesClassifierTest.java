@@ -3,10 +3,7 @@ package de.daslaboratorium.machinelearning.classifier.bayes;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -74,5 +71,22 @@ public class BayesClassifierTest {
     public void testSerialization() throws IOException {
 
         new ObjectOutputStream(new ByteArrayOutputStream()).writeObject(bayes);
+    }
+
+    @Test
+    public void testRestart(){
+        Dictionary featureCountPerCategory = bayes.getFeatureCountPerCategory();
+        System.out.println(featureCountPerCategory);
+        Dictionary totalFeatureCount = bayes.getTotalFeatureCount();
+        System.out.println(totalFeatureCount);
+        Dictionary totalCategoryCount = bayes.getTotalCategoryCount();
+        System.out.println(totalCategoryCount);
+        BayesClassifier bayes2 = new BayesClassifier<String, String>();
+        bayes2.restart(featureCountPerCategory,totalFeatureCount, totalCategoryCount);
+        final String[] unknownText1 = "today is a sunny day".split("\\s");
+        final String[] unknownText2 = "there will be rain".split("\\s");
+
+        Assert.assertEquals(CATEGORY_POSITIVE, bayes2.classify(Arrays.asList(unknownText1)).getCategory());
+        Assert.assertEquals(CATEGORY_NEGATIVE, bayes2.classify(Arrays.asList(unknownText2)).getCategory());
     }
 }
