@@ -14,6 +14,9 @@ import de.daslaboratorium.machinelearning.classifier.Classifier;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class BayesClassifierTest {
 
@@ -89,5 +92,6 @@ public class BayesClassifierTest {
         Assert.assertEquals(CATEGORY_POSITIVE, bayes2.classify(Arrays.asList(unknownText1)).getCategory());
         Assert.assertEquals(CATEGORY_NEGATIVE, bayes2.classify(Arrays.asList(unknownText2)).getCategory());
     }
+
 
 }

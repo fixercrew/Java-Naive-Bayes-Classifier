@@ -17,6 +17,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import java.util.HashMap;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+
 
 
 /**
@@ -137,6 +140,13 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
         return jsonResult;
+    }
+
+    public Map readXML(String jsonInput) throws IOException, JsonProcessingException{
+        TypeReference<HashMap<String, String>> typeRef = new TypeReference<HashMap<String, String>>() {};
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = mapper.readValue(jsonInput, typeRef);
+        return map;
     }
 
     /**
