@@ -44,6 +44,12 @@
             <artifactId>jackson-annotations</artifactId>
             <version>LATEST</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat</artifactId>
+            <version>LATEST</version>
+        </dependency>
     </dependencies>
 
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.*;
 
+import de.daslaboratorium.machinelearning.classifier.RestartData;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +13,10 @@ import org.junit.Test;
 import de.daslaboratorium.machinelearning.classifier.Classification;
 import de.daslaboratorium.machinelearning.classifier.Classifier;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Map;
+import java.util.Iterator;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BayesClassifierTest {
 
@@ -92,6 +92,5 @@ public class BayesClassifierTest {
         Assert.assertEquals(CATEGORY_POSITIVE, bayes2.classify(Arrays.asList(unknownText1)).getCategory());
         Assert.assertEquals(CATEGORY_NEGATIVE, bayes2.classify(Arrays.asList(unknownText2)).getCategory());
     }
-
 
 }

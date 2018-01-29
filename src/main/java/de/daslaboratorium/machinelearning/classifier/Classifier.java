@@ -1,6 +1,7 @@
 package de.daslaboratorium.machinelearning.classifier;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -129,9 +130,9 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
 
     public Map getAllMaps(){
         Map<String, Map> data = new HashMap<String, Map>();
-        data.put("Feature Count Per Category", getMap(this.getFeatureCountPerCategory()));
-        data.put("Total Feature Count", getMap(this.getTotalCategoryCount()));
-        data.put("Total Category Category", getMap(this.getTotalCategoryCount()));
+        data.put("featureCountPerCategory", getMap(this.getFeatureCountPerCategory()));
+        data.put("totalFeatureCount", getMap(this.getTotalCategoryCount()));
+        data.put("totalCategoryCategory", getMap(this.getTotalCategoryCount()));
         return data;
     }
 
@@ -142,11 +143,36 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
         return jsonResult;
     }
 
+    public Dictionary mapToDictionary(Dictionary dict, Iterator it){
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            dict.put(pair.getKey(),pair.getValue());
+            it.remove();
+        }
+        return dict;
+    }
+
     public Map readXML(String jsonInput) throws IOException, JsonProcessingException{
-        TypeReference<HashMap<String, String>> typeRef = new TypeReference<HashMap<String, String>>() {};
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> map = mapper.readValue(jsonInput, typeRef);
-        return map;
+        RestartData map = mapper.reader().forType(RestartData.class).readValue(jsonInput);
+
+        Dictionary featureCount = new Hashtable<String, Dictionary<String, Integer>>();
+        Iterator it = map.getFeatureCountPerCategory().entrySet().iterator();
+        featureCount = mapToDictionary(featureCount,it);
+
+        Dictionary totalFeature = new Hashtable<String, Integer>();
+        Iterator it2 = map.getFeatureCountPerCategory().entrySet().iterator();
+        totalFeature = mapToDictionary(totalFeature,it2);
+
+        Dictionary totalCategory = new Hashtable<String, Integer>();
+        Iterator it3 = map.getFeatureCountPerCategory().entrySet().iterator();
+        totalCategory = mapToDictionary(totalCategory,it3);
+
+        Map <String, Dictionary> hm = new HashMap<String, Dictionary>();
+        hm.put("TotalFeatureCount", featureCount);
+        hm.put("TotalCategoryCategory", totalFeature);
+        hm.put("FeatureCountPerCategory", totalCategory);
+        return hm;
     }
 
     /**
