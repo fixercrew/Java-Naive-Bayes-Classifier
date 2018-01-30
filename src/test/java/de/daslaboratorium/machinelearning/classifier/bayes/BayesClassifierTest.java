@@ -93,4 +93,16 @@ public class BayesClassifierTest {
         Assert.assertEquals(CATEGORY_NEGATIVE, bayes2.classify(Arrays.asList(unknownText2)).getCategory());
     }
 
+    @Test
+    public void testReadJson() throws IOException {
+        String Json = bayes.getJson();
+        BayesClassifier newBayes = new BayesClassifier<String, String>();
+        newBayes.readJson(Json);
+
+        Assert.assertEquals(bayes.getFeatureCountPerCategory(), newBayes.getFeatureCountPerCategory());
+        Assert.assertEquals(bayes.getTotalFeatureCount(), newBayes.getTotalFeatureCount());
+        Assert.assertEquals(bayes.getTotalCategoryCount(), newBayes.getTotalCategoryCount());
+
+    }
+
 }

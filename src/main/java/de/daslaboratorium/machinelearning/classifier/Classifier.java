@@ -19,8 +19,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import java.util.HashMap;
 import com.fasterxml.jackson.core.type.TypeReference;
-
-
+import de.daslaboratorium.machinelearning.classifier.bayes.BayesClassifier;
 
 
 /**
@@ -152,7 +151,7 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
         return dict;
     }
 
-    public Map readXML(String jsonInput) throws IOException, JsonProcessingException{
+    public void readJson(String jsonInput) throws IOException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         RestartData map = mapper.reader().forType(RestartData.class).readValue(jsonInput);
 
@@ -168,11 +167,12 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
         Iterator it3 = map.getTotalCategoryCategory().entrySet().iterator();
         totalCategory = mapToDictionary(totalCategory,it3);
 
-        Map <String, Dictionary> hm = new HashMap<String, Dictionary>();
-        hm.put("FeatureCountPerCategory", featureCount);
-        hm.put("TotalFeatureCount", totalFeature);
-        hm.put("TotalCategoryCount", totalCategory);
-        return hm;
+        BayesClassifier newBayes = new BayesClassifier<String, String>();
+        newBayes.restart(featureCount, totalFeature, totalCategory);
+
+        this.featureCountPerCategory = featureCount;
+        this.totalFeatureCount = totalFeature;
+        this.totalCategoryCount = totalCategory;
     }
 
     /**
