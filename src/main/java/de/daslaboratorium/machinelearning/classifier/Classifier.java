@@ -131,7 +131,7 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
     public Map getAllMaps(){
         Map<String, Map> data = new HashMap<String, Map>();
         data.put("featureCountPerCategory", getMap(this.getFeatureCountPerCategory()));
-        data.put("totalFeatureCount", getMap(this.getTotalCategoryCount()));
+        data.put("totalFeatureCount", getMap(this.getTotalFeatureCount()));
         data.put("totalCategoryCategory", getMap(this.getTotalCategoryCount()));
         return data;
     }
