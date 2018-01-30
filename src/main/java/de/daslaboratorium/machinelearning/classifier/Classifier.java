@@ -161,17 +161,17 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
         featureCount = mapToDictionary(featureCount,it);
 
         Dictionary totalFeature = new Hashtable<String, Integer>();
-        Iterator it2 = map.getFeatureCountPerCategory().entrySet().iterator();
+        Iterator it2 = map.getTotalFeatureCount().entrySet().iterator();
         totalFeature = mapToDictionary(totalFeature,it2);
 
         Dictionary totalCategory = new Hashtable<String, Integer>();
-        Iterator it3 = map.getFeatureCountPerCategory().entrySet().iterator();
+        Iterator it3 = map.getTotalCategoryCategory().entrySet().iterator();
         totalCategory = mapToDictionary(totalCategory,it3);
 
         Map <String, Dictionary> hm = new HashMap<String, Dictionary>();
-        hm.put("TotalFeatureCount", featureCount);
-        hm.put("TotalCategoryCategory", totalFeature);
-        hm.put("FeatureCountPerCategory", totalCategory);
+        hm.put("FeatureCountPerCategory", featureCount);
+        hm.put("TotalFeatureCount", totalFeature);
+        hm.put("TotalCategoryCount", totalCategory);
         return hm;
     }
 

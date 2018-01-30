@@ -6,7 +6,7 @@
 
     <groupId>com.fixer</groupId>
     <artifactId>Java-Naive-Bayes-Classifier</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -42,12 +42,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>LATEST</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat</artifactId>
             <version>LATEST</version>
         </dependency>
     </dependencies>
