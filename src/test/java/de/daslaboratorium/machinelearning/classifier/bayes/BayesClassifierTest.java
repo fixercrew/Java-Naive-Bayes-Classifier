@@ -99,6 +99,8 @@ public class BayesClassifierTest {
         BayesClassifier newBayes = new BayesClassifier<String, String>();
         newBayes.readJson(Json);
 
+        newBayes.classify(Arrays.asList("sunny")).getCategory();
+
         Assert.assertEquals(bayes.getFeatureCountPerCategory(), newBayes.getFeatureCountPerCategory());
         Assert.assertEquals(bayes.getTotalFeatureCount(), newBayes.getTotalFeatureCount());
         Assert.assertEquals(bayes.getTotalCategoryCount(), newBayes.getTotalCategoryCount());

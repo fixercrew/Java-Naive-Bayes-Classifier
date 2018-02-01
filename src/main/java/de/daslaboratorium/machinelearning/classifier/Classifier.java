@@ -156,8 +156,10 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K>, jav
         RestartData map = mapper.reader().forType(RestartData.class).readValue(jsonInput);
 
         Dictionary featureCount = new Hashtable<String, Dictionary<String, Integer>>();
-        Iterator it = map.getFeatureCountPerCategory().entrySet().iterator();
-        featureCount = mapToDictionary(featureCount,it);
+        for (Object entryObj : map.getFeatureCountPerCategory().entrySet()) {
+            Map.Entry<String, Map<String, Integer>> entry = (Map.Entry<String, Map<String, Integer>>)entryObj;
+            featureCount.put(entry.getKey(), mapToDictionary(new Hashtable(), entry.getValue().entrySet().iterator()));
+        }
 
         Dictionary totalFeature = new Hashtable<String, Integer>();
         Iterator it2 = map.getTotalFeatureCount().entrySet().iterator();
